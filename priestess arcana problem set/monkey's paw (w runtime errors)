@@ -1,0 +1,34 @@
+def quick_select(arr, k, l, r):
+    if l == r:
+        return arr[l]
+    
+    pivot = arr[r]
+    pivot_index = l
+    for i in range(l, r):
+        if arr[i] <= pivot:
+            arr[i], arr[pivot_index] = arr[pivot_index], arr[i]
+            pivot_index += 1
+    arr[pivot_index], arr[r] = arr[r], arr[pivot_index]
+    
+    if pivot_index == k:
+        return arr[pivot_index]
+    elif pivot_index > k:
+        return quick_select(arr, k, l, pivot_index - 1)
+    else:
+        return quick_select(arr, k, pivot_index + 1, r)
+
+
+n = int(input())
+movies = []
+for i in range(n):
+    r,c = list(map(int,input().rstrip().split(" ")))
+    movies.append(r-c)
+
+q = int(input())
+for cc in range(q):
+    s,e,a,k = list(map(int,input().rstrip().split(" ")))
+    if a < k:
+        print(-1)
+    else:
+        index = a//k - 1
+        print(quick_select(movies, e-s+2-index, s, e))
